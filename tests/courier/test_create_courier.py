@@ -11,26 +11,28 @@ class TestCreateCourier:
     @allure.description('Тест что курьер создается успешно.')
     def test_create_courier(self, delete_courier):
         courier = compose_courier_data()
-        (data, status_code) = CourierClient().create_courier(courier)
+        courier_client = CourierClient()
+        (data, status_code) = courier_client.create_courier(courier)
 
         assert status_code == requests.codes['created']
         assert data['ok'] == True
 
-        delete_courier(Credentials(courier.login, courier.password))
+        delete_courier(Credentials(courier.login, courier.password), courier_client)
 
     @allure.title('Создание курьера с тем же логином')
     @allure.description('Тест что курьер не будет создан.')
     def test_can_not_create_duplicate_courier(self, delete_courier):
         courier = compose_courier_data()
-        (data1, status_code1) = CourierClient().create_courier(courier)
-        (data2, status_code2) = CourierClient().create_courier(courier)
+        courier_client = CourierClient()
+        (data1, status_code1) = courier_client.create_courier(courier)
+        (data2, status_code2) = courier_client.create_courier(courier)
 
         assert status_code1 == requests.codes['created']
         assert data1['ok'] == True
         assert status_code2 == requests.codes['conflict']
         assert data2['message'] == Responses.LOGIN_ALREADY_EXiSTS['message']
 
-        delete_courier(Credentials(courier.login, courier.password))
+        delete_courier(Credentials(courier.login, courier.password), courier_client)
 
     @allure.title('Создание курьера без логина')
     @allure.description('Тест что курьер не будет создан без передачи логина.')
@@ -58,9 +60,10 @@ class TestCreateCourier:
     @allure.description('Тест что курьер будет создан без передачи не обязательных полей')
     def test_can_create_courier_without_unnecessary_props(self, delete_courier):
         courier = compose_courier_data(True)
-        (data, status_code) = CourierClient().create_courier(courier)
+        courier_client = CourierClient()
+        (data, status_code) = courier_client.create_courier(courier)
 
         assert status_code == requests.codes['created']
         assert data['ok'] == True
 
-        delete_courier(Credentials(courier.login, courier.password))
+        delete_courier(Credentials(courier.login, courier.password), courier_client)

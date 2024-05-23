@@ -41,12 +41,12 @@ GET /api/v1/orders - получение списка заказов test_list_or
 
 3. Создание заказа test_create_order.py
 
-можно указать один из цветов — BLACK или GREY; 
+можно указать один из цветов — BLACK или GREY; test_create_order_with_one_color
 можно указать оба цвета; test_create_order_with_known_colors
 можно совсем не указывать цвет; test_create_order_without_colors
 тело ответа содержит track.
 
-NB! test_create_order_with_invalid_colors - спешно создается ордер с рандомным набором букв вместо цветов
+NB! test_create_order_with_invalid_colors - успешно создается ордер с рандомным набором букв вместо цветов
 
 
 4. Список заказов  test_list_orders.py

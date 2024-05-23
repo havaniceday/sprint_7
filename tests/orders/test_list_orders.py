@@ -1,8 +1,6 @@
 import allure
 import requests
 from client.order_client import OrderClient
-from helper import compose_order_data
-
 
 class TestListOrder:
     @allure.title('Получение заказов')
